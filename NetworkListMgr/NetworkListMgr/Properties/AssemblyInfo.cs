@@ -11,7 +11,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Akizuki Lab")]
 [assembly: AssemblyProduct("NetworkListMgr")]
-[assembly: AssemblyCopyright("Copyright © 2019 Akizuki Lab. All Rights Reserved.")]
+[assembly: AssemblyCopyright("Copyright © 2019-2022 Akizuki Lab. All Rights Reserved.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

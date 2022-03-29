@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Diagnostics;
 
 namespace NetworkListMgr
 {
@@ -24,6 +25,7 @@ namespace NetworkListMgr
             public string signKeyName;
             public bool isManaged;
             public string signDescription;
+            public string Category;
             public string signFirstNetwork;
             public string profileGUID;
             public string profileDescription;
@@ -97,6 +99,7 @@ namespace NetworkListMgr
                         {
                             networkList.profileDescription = profileKey.GetValue("Description").ToString();
                             networkList.profileName = profileKey.GetValue("ProfileName").ToString();
+                            networkList.Category = profileKey.GetValue("Category").ToString();
                         }
                     }
                     NetworkLists.Add(networkList);
@@ -114,7 +117,8 @@ namespace NetworkListMgr
         {
             dataGridView.Rows.Clear();
             dataGridView.DataSource = null;
-            dataGridView.Refresh();
+            //dataGridView.Refresh();
+
             DataGridViewRow row;
 
             for (int i = 0; i < networkLists.Count; i++)
@@ -127,6 +131,24 @@ namespace NetworkListMgr
                     row.Cells["Managed"].Value = true;
                 else
                     row.Cells["Managed"].Value = false;
+
+
+                switch (networkLists[i].Category)
+                {
+                    case "0":
+                        row.Cells["Category"].Value = "公用网络";
+                        break;
+                    case "1":
+                        row.Cells["Category"].Value = "专用网络";
+                        break;
+                    case "2":
+                        row.Cells["Category"].Value = "域网络";
+                        break;
+                    default:
+                        row.Cells["Category"].Value = string.Format("未知网络({0})", networkLists[i].Category);
+                        break;
+                }
+
                 row.Cells["ProfileDesc"].Value = networkLists[i].profileDescription;
                 row.Cells["SignFirstNetwork"].Value = networkLists[i].signFirstNetwork;
                 row.Cells["SignDesc"].Value = networkLists[i].signDescription;
@@ -137,19 +159,19 @@ namespace NetworkListMgr
             }
             dataGridView.Refresh();
 
-            this.Text = String.Format("网络位置管理 ({0}个网络位置)", networkLists.Count);
+            Text = string.Format("网络位置管理 ({0}个网络位置)", networkLists.Count);
         }
 
         private void MainForm_Shown(object sender, EventArgs e)
         {
-            //this.dataGridView.Columns["Managed"].Visible = false;
 #if !DEBUG
-            this.dataGridView.Columns["ProfileDesc"].Visible = false;
-            this.dataGridView.Columns["SignFirstNetwork"].Visible = false;
-            this.dataGridView.Columns["SignDesc"].Visible = false;
-            this.dataGridView.Columns["GUID"].Visible = false;
-            this.dataGridView.Columns["SignKeyName"].Visible = false;
-            this.Width = this.Width / 2;
+            dataGridView.Columns["Managed"].Visible = false;
+            dataGridView.Columns["ProfileDesc"].Visible = false;
+            dataGridView.Columns["SignFirstNetwork"].Visible = false;
+            dataGridView.Columns["SignDesc"].Visible = false;
+            dataGridView.Columns["GUID"].Visible = false;
+            dataGridView.Columns["SignKeyName"].Visible = false;
+            Width = Width / 2;
 #endif
 
             Refresh_dataGridView(Read());
@@ -176,10 +198,11 @@ namespace NetworkListMgr
                         {
                             if (md.ShowDialog() == DialogResult.OK)
                             {
-
+                                Debug.WriteLine(string.Format("Profile[{0}] modified", nl.profileGUID));
                             }
                             else
                             {
+                                Debug.WriteLine(string.Format("User cancelled", nl.profileGUID));
                                 //MessageBox.Show("用户取消操作");
                             }
                         }
@@ -189,21 +212,21 @@ namespace NetworkListMgr
                         String warnMessage = null;
                         try
                         {
-                            warnMessage += "你即将删除\n";
+                            warnMessage += "你即将删除\r\n";
                             if ((bool)senderGrid.Rows[e.RowIndex].Cells["Managed"].Value)
                             {
-                                warnMessage += senderGrid.Rows[e.RowIndex].Cells["ProfileName"].Value.ToString() + "（管理型配置）\n";
+                                warnMessage += senderGrid.Rows[e.RowIndex].Cells["ProfileName"].Value.ToString() + "（管理型配置）\r\n\r\n";
                                 signKeyPath = @"SOFTWARE\Microsoft\Windows NT\CurrentVersion\NetworkList\Signatures\Managed\" + senderGrid.Rows[e.RowIndex].Cells["SignKeyName"].Value.ToString();
                                 profileKeyPath = @"SOFTWARE\Microsoft\Windows NT\CurrentVersion\NetworkList\Profiles\" + senderGrid.Rows[e.RowIndex].Cells["GUID"].Value.ToString();
                             }
                             else
                             {
-                                warnMessage += senderGrid.Rows[e.RowIndex].Cells["ProfileName"].Value.ToString() + "（非管理型配置）\n";
+                                warnMessage += senderGrid.Rows[e.RowIndex].Cells["ProfileName"].Value.ToString() + "（非管理型配置）\r\n\r\n";
                                 signKeyPath = @"SOFTWARE\Microsoft\Windows NT\CurrentVersion\NetworkList\Signatures\UnManaged\" + senderGrid.Rows[e.RowIndex].Cells["SignKeyName"].Value.ToString();
                                 profileKeyPath = @"SOFTWARE\Microsoft\Windows NT\CurrentVersion\NetworkList\Profiles\" + senderGrid.Rows[e.RowIndex].Cells["GUID"].Value.ToString();
                             }
-                            warnMessage += "signKeyPath=" + signKeyPath + "\n";
-                            warnMessage += "profileKeyPath=" + profileKeyPath + "\n\n请确认";
+                            warnMessage += "signKeyPath=" + signKeyPath + "\r\n\r\n";
+                            warnMessage += "profileKeyPath=" + profileKeyPath + "\r\n\r\n请确认";
                             if (MessageBox.Show(warnMessage, "警告", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
                             {
                                 RegistryKey delKey = Registry.LocalMachine;

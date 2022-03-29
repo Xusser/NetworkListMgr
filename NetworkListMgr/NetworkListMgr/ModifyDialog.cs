@@ -1,12 +1,5 @@
 ﻿using Microsoft.Win32;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using static NetworkListMgr.MainForm;
 
@@ -18,34 +11,34 @@ namespace NetworkListMgr
 
         public ModifyDialog(NetworkList net)
         {
-            this.networkList = net;
+            networkList = net;
             InitializeComponent();
         }
 
-        private void button_Cancel_Click(object sender, EventArgs e)
+        private void Button_Cancel_Click(object sender, EventArgs e)
         {
-            this.DialogResult = DialogResult.Cancel;
-            this.Close();
+            DialogResult = DialogResult.Cancel;
+            Close();
         }
 
-        private void button_OK_Click(object sender, EventArgs e)
+        private void Button_OK_Click(object sender, EventArgs e)
         {
-            if (String.IsNullOrEmpty(this.profileName.Text.Trim()))
+            if (string.IsNullOrEmpty(profileName.Text.Trim()))
             {
                 MessageBox.Show("配置名称 不能为空", "错误", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
-            if (String.IsNullOrEmpty(this.profileDesc.Text.Trim()))
+            if (string.IsNullOrEmpty(profileDesc.Text.Trim()))
             {
                 MessageBox.Show("配置描述 不能为空", "错误", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
-            if (String.IsNullOrEmpty(this.signName.Text.Trim()))
+            if (string.IsNullOrEmpty(signName.Text.Trim()))
             {
                 MessageBox.Show("Sign名称 不能为空", "错误", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
-            if (String.IsNullOrEmpty(this.signDesc.Text.Trim()))
+            if (string.IsNullOrEmpty(signDesc.Text.Trim()))
             {
                 MessageBox.Show("Sign描述 不能为空", "错误", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
@@ -54,8 +47,8 @@ namespace NetworkListMgr
             try
             {
                 // 初始化
-                String ProfilePath = @"SOFTWARE\Microsoft\Windows NT\CurrentVersion\NetworkList\Profiles\" + networkList.profileGUID;
-                String SignPath;
+                string ProfilePath = @"SOFTWARE\Microsoft\Windows NT\CurrentVersion\NetworkList\Profiles\" + networkList.profileGUID;
+                string SignPath;
                 if (networkList.isManaged)
                     SignPath = @"SOFTWARE\Microsoft\Windows NT\CurrentVersion\NetworkList\Signatures\Managed\" + networkList.signKeyName;
                 else
@@ -76,44 +69,44 @@ namespace NetworkListMgr
                 modSignKey.SetValue("Description", this.signDesc.Text);
                 modSignKey.Close();
 
-                this.DialogResult = DialogResult.OK;
+                DialogResult = DialogResult.OK;
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString(), "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                this.DialogResult = DialogResult.Abort;
+                DialogResult = DialogResult.Abort;
             }
 
-            this.Close();
+            Close();
         }
 
         private void ModifyDialog_Shown(object sender, EventArgs e)
         {
-            this.Text = "正在修改 " + networkList.profileName;
+            Text = "正在修改 " + networkList.profileName;
             if (networkList.isManaged)
-                this.Text += " (管理型)";
+                Text += " (管理型)";
             else
-                this.Text += " (非管理型)";
+                Text += " (非管理型)";
 
-            this.profileName.Text = networkList.profileName;
-            this.profileDesc.Text = networkList.profileDescription;
-            this.signName.Text = networkList.signFirstNetwork;
-            this.signDesc.Text = networkList.signDescription;
+            profileName.Text = networkList.profileName;
+            profileDesc.Text = networkList.profileDescription;
+            signName.Text = networkList.signFirstNetwork;
+            signDesc.Text = networkList.signDescription;
 
-            this.profileDesc.ReadOnly = true;
+            profileDesc.ReadOnly = true;
             //this.signName.ReadOnly = true;
             //this.signDesc.ReadOnly = true;
         }
 
-        private void profileName_TextChanged(object sender, EventArgs e)
+        private void ProfileName_TextChanged(object sender, EventArgs e)
         {
             if (networkList.profileName == networkList.signFirstNetwork)
             {
-                this.signName.Text = this.profileName.Text;
+                signName.Text = profileName.Text;
             }
             if (networkList.profileName == networkList.signDescription)
             {
-                this.signDesc.Text = this.profileName.Text;
+                signDesc.Text = profileName.Text;
             }
         }
     }
