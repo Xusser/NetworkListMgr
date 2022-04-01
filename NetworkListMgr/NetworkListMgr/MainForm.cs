@@ -188,6 +188,7 @@ namespace NetworkListMgr
                         NetworkList nl = new NetworkList();
                         nl.signKeyName = senderGrid.Rows[e.RowIndex].Cells["SignKeyName"].Value.ToString();
                         nl.isManaged = (bool)senderGrid.Rows[e.RowIndex].Cells["Managed"].Value;
+                        nl.Category = senderGrid.Rows[e.RowIndex].Cells["category"].ToString();
                         nl.profileName = senderGrid.Rows[e.RowIndex].Cells["ProfileName"].Value.ToString();
                         nl.profileGUID = senderGrid.Rows[e.RowIndex].Cells["GUID"].Value.ToString();
                         nl.profileDescription = senderGrid.Rows[e.RowIndex].Cells["ProfileDesc"].Value.ToString();
@@ -213,15 +214,16 @@ namespace NetworkListMgr
                         try
                         {
                             warnMessage += "你即将删除\r\n";
+                            warnMessage += String.Format("{0}（{1}）\r\n\r\n", senderGrid.Rows[e.RowIndex].Cells["ProfileName"].Value.ToString(), senderGrid.Rows[e.RowIndex].Cells["Category"].Value.ToString());
                             if ((bool)senderGrid.Rows[e.RowIndex].Cells["Managed"].Value)
                             {
-                                warnMessage += senderGrid.Rows[e.RowIndex].Cells["ProfileName"].Value.ToString() + "（管理型配置）\r\n\r\n";
+                                //warnMessage += senderGrid.Rows[e.RowIndex].Cells["ProfileName"].Value.ToString() + "（管理型配置）\r\n\r\n";
                                 signKeyPath = @"SOFTWARE\Microsoft\Windows NT\CurrentVersion\NetworkList\Signatures\Managed\" + senderGrid.Rows[e.RowIndex].Cells["SignKeyName"].Value.ToString();
                                 profileKeyPath = @"SOFTWARE\Microsoft\Windows NT\CurrentVersion\NetworkList\Profiles\" + senderGrid.Rows[e.RowIndex].Cells["GUID"].Value.ToString();
                             }
                             else
                             {
-                                warnMessage += senderGrid.Rows[e.RowIndex].Cells["ProfileName"].Value.ToString() + "（非管理型配置）\r\n\r\n";
+                                //warnMessage += senderGrid.Rows[e.RowIndex].Cells["ProfileName"].Value.ToString() + "（非管理型配置）\r\n\r\n";
                                 signKeyPath = @"SOFTWARE\Microsoft\Windows NT\CurrentVersion\NetworkList\Signatures\UnManaged\" + senderGrid.Rows[e.RowIndex].Cells["SignKeyName"].Value.ToString();
                                 profileKeyPath = @"SOFTWARE\Microsoft\Windows NT\CurrentVersion\NetworkList\Profiles\" + senderGrid.Rows[e.RowIndex].Cells["GUID"].Value.ToString();
                             }

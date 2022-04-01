@@ -45,7 +45,11 @@
             // dataGridView
             // 
             this.dataGridView.AllowUserToAddRows = false;
+            this.dataGridView.AllowUserToDeleteRows = false;
+            this.dataGridView.AllowUserToResizeColumns = false;
+            this.dataGridView.AllowUserToResizeRows = false;
             this.dataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dataGridView.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCells;
             this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ProfileName,
@@ -60,12 +64,12 @@
             this.Del});
             this.dataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView.Location = new System.Drawing.Point(0, 0);
-            this.dataGridView.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dataGridView.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.dataGridView.Name = "dataGridView";
             this.dataGridView.ReadOnly = true;
             this.dataGridView.RowHeadersWidth = 51;
             this.dataGridView.RowTemplate.Height = 23;
-            this.dataGridView.Size = new System.Drawing.Size(1125, 448);
+            this.dataGridView.Size = new System.Drawing.Size(1266, 538);
             this.dataGridView.TabIndex = 0;
             this.dataGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_CellContentClick);
             // 
@@ -77,7 +81,7 @@
             this.ProfileName.MinimumWidth = 6;
             this.ProfileName.Name = "ProfileName";
             this.ProfileName.ReadOnly = true;
-            this.ProfileName.Width = 96;
+            this.ProfileName.Width = 116;
             // 
             // Category
             // 
@@ -86,7 +90,7 @@
             this.Category.MinimumWidth = 6;
             this.Category.Name = "Category";
             this.Category.ReadOnly = true;
-            this.Category.Width = 96;
+            this.Category.Width = 116;
             // 
             // Managed
             // 
@@ -98,7 +102,7 @@
             this.Managed.ReadOnly = true;
             this.Managed.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.Managed.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.Managed.Width = 66;
+            this.Managed.Width = 80;
             // 
             // ProfileDesc
             // 
@@ -108,7 +112,7 @@
             this.ProfileDesc.MinimumWidth = 6;
             this.ProfileDesc.Name = "ProfileDesc";
             this.ProfileDesc.ReadOnly = true;
-            this.ProfileDesc.Width = 96;
+            this.ProfileDesc.Width = 116;
             // 
             // SignFirstNetwork
             // 
@@ -118,7 +122,7 @@
             this.SignFirstNetwork.MinimumWidth = 6;
             this.SignFirstNetwork.Name = "SignFirstNetwork";
             this.SignFirstNetwork.ReadOnly = true;
-            this.SignFirstNetwork.Width = 96;
+            this.SignFirstNetwork.Width = 116;
             // 
             // SignDesc
             // 
@@ -128,7 +132,7 @@
             this.SignDesc.MinimumWidth = 6;
             this.SignDesc.Name = "SignDesc";
             this.SignDesc.ReadOnly = true;
-            this.SignDesc.Width = 96;
+            this.SignDesc.Width = 116;
             // 
             // GUID
             // 
@@ -138,7 +142,7 @@
             this.GUID.MinimumWidth = 6;
             this.GUID.Name = "GUID";
             this.GUID.ReadOnly = true;
-            this.GUID.Width = 68;
+            this.GUID.Width = 80;
             // 
             // SignKeyName
             // 
@@ -148,7 +152,7 @@
             this.SignKeyName.MinimumWidth = 6;
             this.SignKeyName.Name = "SignKeyName";
             this.SignKeyName.ReadOnly = true;
-            this.SignKeyName.Width = 96;
+            this.SignKeyName.Width = 116;
             // 
             // Modify
             // 
@@ -168,11 +172,11 @@
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1125, 448);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(144F, 144F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
+            this.ClientSize = new System.Drawing.Size(1266, 538);
             this.Controls.Add(this.dataGridView);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "网络位置管理";
